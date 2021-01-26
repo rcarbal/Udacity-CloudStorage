@@ -25,7 +25,7 @@ public class FileServiceController {
 
     @GetMapping
     public List<File> getAllFiles(int userId){
-        return fileService.getAllFiles(userId);
+        return fileService.getAllFilesById(userId);
     }
 
     @PostMapping

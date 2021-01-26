@@ -16,8 +16,8 @@ public class FileService {
         this.fileMapper = fileMapper;
     }
 
-    public List<File> getAllFiles(int id) {
-        return fileMapper.getFileByUserId(id);
+    public List<File> getAllFilesById(int id) {
+        return fileMapper.getFilesByUserId(id);
     }
 
     public void addFile(String name, MultipartFile file) {
