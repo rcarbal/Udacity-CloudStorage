@@ -40,6 +40,6 @@ public class FileServiceController {
         int userId = userService.getUserById(auth.getName());
 
         fileService.addFile(userId, file);
-        return "home";
+        return "result";
     }
 }
