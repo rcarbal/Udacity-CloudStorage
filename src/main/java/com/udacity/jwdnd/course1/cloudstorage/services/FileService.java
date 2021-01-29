@@ -5,6 +5,7 @@ import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -20,7 +21,13 @@ public class FileService {
         return fileMapper.getFilesByUserId(id);
     }
 
-    public void addFile(String name, MultipartFile file) {
+    public int addFile(int userId, MultipartFile file) throws IOException {
 
+        File newFile = new File(null, file.getOriginalFilename(), file.getContentType(), file.getSize(), userId,
+                file.getBytes());
+
+        int i = fileMapper.addFileById(newFile);
+        System.out.println("File saved in index: " + i);
+        return i;
     }
 }
