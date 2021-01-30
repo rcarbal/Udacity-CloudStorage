@@ -1,7 +1,9 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
+import com.udacity.jwdnd.course1.cloudstorage.messages.FileServiceEnum;
+import com.udacity.jwdnd.course1.cloudstorage.messages.ResultsEnum;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
-import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
+import com.udacity.jwdnd.course1.cloudstorage.model.Result;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -19,10 +21,10 @@ import java.util.List;
 @RequestMapping("/file")
 public class FileServiceController {
 
-    private FileService fileService;
+    private com.udacity.jwdnd.course1.cloudstorage.services.FileService fileService;
     private UserService userService;
 
-    public FileServiceController(FileService fileService, UserService userService) {
+    public FileServiceController(com.udacity.jwdnd.course1.cloudstorage.services.FileService fileService, UserService userService) {
         this.fileService = fileService;
         this.userService = userService;
     }
@@ -39,7 +41,13 @@ public class FileServiceController {
 
         int userId = userService.getUserById(auth.getName());
 
-        fileService.addFile(userId, file);
+        int savedIndex = fileService.addFile(userId, file);
+
+        if (savedIndex > 0){
+            model.addAttribute("result",
+                    new Result(ResultsEnum.SUCCESS.getKey(), FileServiceEnum.FILE_SAVED.getMessage()));
+        }
+
         return "result";
     }
 }
