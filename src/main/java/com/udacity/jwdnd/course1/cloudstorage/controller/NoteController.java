@@ -38,7 +38,6 @@ public class NoteController {
                     new Result(ResultsEnum.SUCCESS.getKey(), NoteServiceEnum.NOTE_SAVED.getNote()));
         }
 
-
         return "result";
     }
 }
