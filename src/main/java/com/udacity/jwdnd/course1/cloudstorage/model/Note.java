@@ -4,13 +4,13 @@ public class Note {
 
     private Integer noteId;
     private String noteTitle;
-    private String noteDescriptrion;
+    private String noteDescription;
     private Integer userId;
 
-    public Note(Integer noteId, String noteTitle, String noteDescriptrion, Integer userId) {
+    public Note(Integer noteId, String noteTitle, String noteDescription, Integer userId) {
         this.noteId = noteId;
         this.noteTitle = noteTitle;
-        this.noteDescriptrion = noteDescriptrion;
+        this.noteDescription = noteDescription;
         this.userId = userId;
     }
 
@@ -30,12 +30,12 @@ public class Note {
         this.noteTitle = noteTitle;
     }
 
-    public String getNoteDescriptrion() {
-        return noteDescriptrion;
+    public String getNoteDescription() {
+        return noteDescription;
     }
 
-    public void setNoteDescriptrion(String noteDescriptrion) {
-        this.noteDescriptrion = noteDescriptrion;
+    public void setNoteDescription(String noteDescription) {
+        this.noteDescription = noteDescription;
     }
 
     public Integer getUserId() {
@@ -51,7 +51,7 @@ public class Note {
         return "Note{" +
                 "noteId=" + noteId +
                 ", noteTitle='" + noteTitle + '\'' +
-                ", noteDescriptrion='" + noteDescriptrion + '\'' +
+                ", noteDescriptrion='" + noteDescription + '\'' +
                 ", userId=" + userId +
                 '}';
     }
