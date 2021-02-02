@@ -1,7 +1,8 @@
 package com.udacity.jwdnd.course1.cloudstorage.messages;
 
 public enum ResultsEnum {
-    SUCCESS("success");
+    SUCCESS("success"),
+    FAILED("fail");
 
     private String key;
 

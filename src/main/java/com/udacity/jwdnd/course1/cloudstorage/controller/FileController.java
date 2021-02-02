@@ -33,10 +33,18 @@ public class FileController {
                              Model model) throws IOException {
 
         int userId = userService.getUserById(auth.getName());
+        int savedIndex = -1;
 
-        int savedIndex = fileService.addFile(userId, file);
+        String fileName = file.getOriginalFilename();
 
-        if (savedIndex > 0){
+        if (fileName.equals("")){
+            model.addAttribute("result",
+                    new Result(ResultsEnum.FAILED.getKey(), FileServiceEnum.NO_FILE_FOUND.getMessage()));
+        } else {
+            savedIndex = fileService.addFile(userId, file);
+        }
+
+        if (savedIndex > -1 ){
             model.addAttribute("result",
                     new Result(ResultsEnum.SUCCESS.getKey(), FileServiceEnum.FILE_SAVED.getMessage()));
         }
