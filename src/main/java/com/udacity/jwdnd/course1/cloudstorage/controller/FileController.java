@@ -51,8 +51,17 @@ public class FileController {
     }
 
     @GetMapping("/{fileId}")
-    public String deleteFile(@PathVariable long fileId, Authentication authentication){
+    public String deleteFile(@PathVariable long fileId, Authentication authentication, Model model){
 
+        int deleteIndex = fileService.removeFileById(fileId);
+
+        if (deleteIndex > 0){
+            model.addAttribute("result",
+                    new Result(ResultsEnum.SUCCESS.getKey(), FileServiceEnum.FILE_DELETED.getMessage()));
+        } else {
+            model.addAttribute("result",
+                    new Result(ResultsEnum.FAILED.getKey(), FileServiceEnum.FILE_DELETE_ERROR.getMessage()));
+        }
 
         return "result";
     }

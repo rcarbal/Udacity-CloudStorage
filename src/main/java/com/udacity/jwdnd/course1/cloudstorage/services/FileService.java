@@ -30,4 +30,8 @@ public class FileService {
         System.out.println("File saved in index: " + i);
         return i;
     }
+
+    public int removeFileById(long fileId) {
+        return fileMapper.removeFileById(fileId);
+    }
 }
