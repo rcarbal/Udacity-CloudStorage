@@ -50,13 +50,13 @@
                                 </thead>
                                 <tbody>
                                 <!-- Travers variable that contains all the file names-->
-                                <div th:each="files:${files}">
+                                <div th:each="file:${files}">
                                     <tr>
                                         <td>
                                             <a target="_blank" class="btn btn-success">View</a>
-                                            <a  class="btn btn-danger">Delete</a>
+                                            <a  class="btn btn-danger" th:href="@{/files/{fileId}(fileId=${file.fileId})}">Delete</a>
                                         </td>
-                                        <th scope="row" th:text="${files.fileName}"></th>
+                                        <th scope="row" th:text="${file.fileName}"></th>
                                     </tr>
 
                                 </div>
