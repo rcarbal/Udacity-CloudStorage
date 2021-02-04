@@ -34,4 +34,8 @@ public class FileService {
     public int removeFileById(long fileId) {
         return fileMapper.removeFileById(fileId);
     }
+
+    public File getFileById(long fileId) {
+        return fileMapper.getFileById(fileId);
+    }
 }
