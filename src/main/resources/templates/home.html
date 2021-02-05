@@ -81,14 +81,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <div th:each="notes:${note}">
+                                    <div th:each="note:${notes}">
                                         <tr>
                                             <td>
-                                                <button type="button" class="btn btn-success">Edit</button>-->
-                                                <a class="btn btn-danger">Delete</a>-->
+                                                <button type="button" class="btn btn-success"
+                                                th:onclick="showNoteModal([[${note.noteId}]],[[${note.noteTitle}]],[[${note.noteDescription}]])"
+                                                >Edit</button>
+                                                <a class="btn btn-danger">Delete</a>
                                             </td>-->
-                                            <th th:text="${note.noteTitle}" scope="row"></th>-->
-                                            <td th:text="${note.noteDescription}" ></td>-->
+                                            <th th:text="${note.noteTitle}" scope="row"></th>
+                                            <td th:text="${note.noteDescription}" ></td>
                                         </tr>
 
                                     </div>

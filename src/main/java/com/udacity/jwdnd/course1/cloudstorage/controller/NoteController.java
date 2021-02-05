@@ -31,9 +31,9 @@ public class NoteController {
         int userId = userService.getUserById(auth.getName());
         note.setUserId(userId);
 
-        int savedIndex = noteService.addNote(note);
+        int numSavedNotes = noteService.addNote(note);
 
-        if (savedIndex > 0){
+        if (numSavedNotes > 0){
             model.addAttribute("result",
                     new Result(ResultsEnum.SUCCESS.getKey(), NoteServiceEnum.NOTE_SAVED.getNote()));
         }
