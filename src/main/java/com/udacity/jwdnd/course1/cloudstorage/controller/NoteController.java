@@ -9,9 +9,7 @@ import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/notes")
@@ -36,6 +34,28 @@ public class NoteController {
         if (numSavedNotes > 0){
             model.addAttribute("result",
                     new Result(ResultsEnum.SUCCESS.getKey(), NoteServiceEnum.NOTE_SAVED.getNote()));
+        }
+
+        return "result";
+    }
+
+    @GetMapping
+    private String deleteNote(@PathVariable long noteId, Authentication auth, Model model){
+        int userId = userService.getUserById(auth.getName());
+
+        Note note = noteService.getNoteById(noteId);
+        int userIdOfNote = note.getUserId();
+
+        if (userId != userIdOfNote){
+            model.addAttribute("result", new Result(ResultsEnum.FAILED.getKey(), NoteServiceEnum.DENIED.getNote()));
+        } else {
+            int numNotesDeleted = noteService.deleteNoteById(note.getNoteId());
+
+            if (numNotesDeleted > 0){
+                model.addAttribute("result", new Result(ResultsEnum.SUCCESS.getKey(), NoteServiceEnum.DELETED.getNote()));
+            } else {
+                model.addAttribute("result", new Result(ResultsEnum.ERROR.getKey(), NoteServiceEnum.ERROR.getNote()));
+            }
         }
 
         return "result";
