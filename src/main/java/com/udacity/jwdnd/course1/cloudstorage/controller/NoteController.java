@@ -49,7 +49,7 @@ public class NoteController {
         return "result";
     }
 
-    @DeleteMapping("/{noteId}")
+    @GetMapping("/{noteId}")
     private String deleteNote(@PathVariable long noteId, Authentication auth, Model model){
         int userId = userService.getUserById(auth.getName());
 
