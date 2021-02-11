@@ -27,19 +27,29 @@ public class NoteController {
     private String addNote(@ModelAttribute("note")Note note, Authentication auth, Model model){
 
         int userId = userService.getUserById(auth.getName());
-        note.setUserId(userId);
 
-        int numSavedNotes = noteService.addNote(note);
+        if (note.getNoteId() == null){
+            note.setUserId(userId);
 
-        if (numSavedNotes > 0){
-            model.addAttribute("result",
-                    new Result(ResultsEnum.SUCCESS.getKey(), NoteServiceEnum.NOTE_SAVED.getNote()));
+            int numSavedNotes = noteService.addNote(note);
+
+            if (numSavedNotes > 0){
+                model.addAttribute("result",
+                        new Result(ResultsEnum.SUCCESS.getKey(), NoteServiceEnum.NOTE_SAVED.getNote()));
+            }
+        }
+        else{
+            int i = noteService.updateNote(note);
+            if (i > 0){
+                model.addAttribute("result",
+                        new Result(ResultsEnum.SUCCESS.getKey(), NoteServiceEnum.NOTE_UPDATED.getNote()));
+            }
         }
 
         return "result";
     }
 
-    @GetMapping
+    @DeleteMapping("/{noteId}")
     private String deleteNote(@PathVariable long noteId, Authentication auth, Model model){
         int userId = userService.getUserById(auth.getName());
 
