@@ -43,6 +43,7 @@ public class HomeController {
 
         model.addAttribute("files", allFiles);
         model.addAttribute("notes", allNotes);
+        model.addAttribute("credentials", allCredentials);
         return "home";
     }
 }
