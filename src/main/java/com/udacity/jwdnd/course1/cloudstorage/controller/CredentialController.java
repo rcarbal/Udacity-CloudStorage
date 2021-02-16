@@ -5,6 +5,7 @@ import com.udacity.jwdnd.course1.cloudstorage.messages.ResultsEnum;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.Result;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
+import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -19,8 +20,10 @@ public class CredentialController {
 
     private UserService userService;
     private CredentialService credentialService;
+    private EncryptionService encryptionService;
 
-    public CredentialController(UserService userService, CredentialService credentialService) {
+    public CredentialController(UserService userService,
+                                CredentialService credentialService) {
         this.userService = userService;
         this.credentialService = credentialService;
     }
