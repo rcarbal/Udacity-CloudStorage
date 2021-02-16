@@ -20,7 +20,19 @@ public class CredentialService {
     }
 
     public List<Credential> getAllCredentialsById(int userId) {
-        return credentialsMapper.getCredentialsByUserId(userId);
+
+        List<Credential> credentials = credentialsMapper.getCredentialsByUserId(userId);
+
+        for (Credential credential: credentials){
+            String password = credential.getPassword();
+            String key = credential.getKey();
+
+            String decryptedPassword = encryptionService.decryptValue(password, key);
+            credential.setPassword(decryptedPassword);
+            System.out.println();
+        }
+
+        return credentials;
     }
 
     public int addCredentials(Credential cred) {
