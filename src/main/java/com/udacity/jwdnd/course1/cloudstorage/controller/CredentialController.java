@@ -31,15 +31,28 @@ public class CredentialController {
     @PostMapping
     private String addCredentials(@ModelAttribute("cred")Credential cred, Authentication auth, Model model){
 
+        Integer credentialId = cred.getCredentialId();
+
         int userId = userService.getUserById(auth.getName());
 
         cred.setUsername(auth.getName());
         cred.setUserId(userId);
 
-        int i = credentialService.addCredentials(cred);
+        if (credentialId != null){
+            cred.setCredentialId(credentialId);
+            int i = credentialService.updateCredentials(cred);
 
-        if (i > 0){
-            model.addAttribute("result", new Result(ResultsEnum.SUCCESS.getKey(), CredentialEnum.SAVED.get()));
+            if (i > 0){
+                model.addAttribute("result", new Result(ResultsEnum.SUCCESS.getKey(), CredentialEnum.UPDATE.get()));
+            }
+
+        }
+        else {
+            int i = credentialService.addCredentials(cred);
+
+            if (i > 0){
+                model.addAttribute("result", new Result(ResultsEnum.SUCCESS.getKey(), CredentialEnum.SAVED.get()));
+            }
         }
 
         return "result";

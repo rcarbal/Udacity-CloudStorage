@@ -153,7 +153,8 @@
                                     <tr>
                                         <!-- credentials list -->
                                         <td>
-                                            <button type="button" class="btn btn-success">Edit</button>
+                                            <button th:onclick="showCredentialModal([[${cred.credentialId}]],[[${cred.url}]],[[${cred.username}]],[[${cred.password}]])"
+                                                    type="button" class="btn btn-success">Edit</button>
                                             <a class="btn btn-danger">Delete</a>
                                         </td>
                                         <th th:text="${cred.url}" scope="row"></th>
