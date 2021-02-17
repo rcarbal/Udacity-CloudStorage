@@ -56,7 +56,7 @@
                                             <a class="btn btn-danger"
                                                th:href="@{/files/view/{fileId}(fileId=${file.fileId})}">View</a>
                                             <a target="_blank" class="btn btn-success"
-                                               th:href="@{/files/{fileId}(fileId=${file.fileId})}">Delete</a>
+                                               th:href="@{/files/delete/{fileId}(fileId=${file.fileId})}">Delete</a>
                                         </td>
                                         <th scope="row" th:text="${file.fileName}"></th>
                                     </tr>
@@ -155,7 +155,8 @@
                                         <td>
                                             <button th:onclick="showCredentialModal([[${cred.credentialId}]],[[${cred.url}]],[[${cred.username}]],[[${cred.password}]])"
                                                     type="button" class="btn btn-success">Edit</button>
-                                            <a class="btn btn-danger">Delete</a>
+                                            <a th:href="@{/credentials/delete/{credentialId}(credentialId=${cred.credentialId})}"
+                                               class="btn btn-danger">Delete</a>
                                         </td>
                                         <th th:text="${cred.url}" scope="row"></th>
                                         <td th:text="${cred.username}"></td>

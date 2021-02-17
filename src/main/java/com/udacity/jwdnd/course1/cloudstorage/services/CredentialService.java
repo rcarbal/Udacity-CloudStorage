@@ -37,12 +37,16 @@ public class CredentialService {
 
     public int addCredentials(Credential cred) {
         Credential credential = setEncryption(cred);
-        return credentialsMapper.addCredential(credential);
+        return credentialsMapper.add(credential);
     }
 
     public int updateCredentials(Credential cred) {
         Credential credential = setEncryption(cred);
-        return credentialsMapper.updateCredential(credential);
+        return credentialsMapper.update(credential);
+    }
+
+    public int deleteCredential(long credentialId) {
+        return credentialsMapper.delete(credentialId);
     }
 
     private Credential setEncryption(Credential credential){

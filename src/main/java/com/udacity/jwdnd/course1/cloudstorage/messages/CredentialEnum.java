@@ -2,7 +2,8 @@ package com.udacity.jwdnd.course1.cloudstorage.messages;
 
 public enum CredentialEnum {
     SAVED("Successfully Saved Credentials"),
-    UPDATE("Successfully Updated Credentials");
+    UPDATE("Successfully Updated Credentials"),
+    DELETED("Successfully Deleted Credentials");
 
     private String message;
 

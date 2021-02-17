@@ -56,7 +56,7 @@ public class FileController {
         return "result";
     }
 
-    @GetMapping("/{fileId}")
+    @GetMapping("/delete/{fileId}")
     public String deleteFile(@PathVariable long fileId, Authentication authentication, Model model){
 
         int numFilesRemoved = fileService.removeFileById(fileId);
