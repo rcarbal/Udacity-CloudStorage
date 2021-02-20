@@ -38,4 +38,11 @@ class CloudStorageApplicationTests {
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
 
+	@Test
+	public void testHomePageIsNotAvailable(){
+		driver.get("http://localhost:" + this.port + "/home");
+		String title = driver.getTitle();
+		Assertions.assertEquals("Login", title);
+	}
+
 }
