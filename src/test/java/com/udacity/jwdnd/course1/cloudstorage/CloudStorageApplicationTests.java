@@ -12,6 +12,9 @@ import org.springframework.boot.web.server.LocalServerPort;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CloudStorageApplicationTests {
 
+	private String username = "rcarbal";
+	private String password = "123456";
+
 	@LocalServerPort
 	private int port;
 
@@ -35,7 +38,11 @@ class CloudStorageApplicationTests {
 	}
 
 	public void signupUser(){
+
+
+		driver.get("http://localhost:" + port + "/");
 		SignupPage signupPage = new SignupPage(driver);
+		signupPage.signUp("Ricardo", "Carballo", username, password);
 	}
 
 	@Test
