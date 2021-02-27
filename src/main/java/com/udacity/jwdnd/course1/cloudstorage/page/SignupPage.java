@@ -18,6 +18,9 @@ public class SignupPage {
     @FindBy(id = "inputPassword")
     private WebElement passwordField;
 
+    @FindBy(id = "signupButton")
+    private WebElement submitButton;
+
     public SignupPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }
@@ -27,5 +30,9 @@ public class SignupPage {
         lastNameField.sendKeys(lastName);
         usernameField.sendKeys(username);
         passwordField.sendKeys(password);
+    }
+
+    public void clickSubmit(){
+        submitButton.click();
     }
 }

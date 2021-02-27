@@ -1,9 +1,12 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
+import com.udacity.jwdnd.course1.cloudstorage.page.LoginPage;
 import com.udacity.jwdnd.course1.cloudstorage.page.SignupPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -38,11 +41,17 @@ class CloudStorageApplicationTests {
 	}
 
 	public void signupUser(){
-
-
-		driver.get("http://localhost:" + port + "/");
+		driver.get("http://localhost:" + port + "/signup");
 		SignupPage signupPage = new SignupPage(driver);
 		signupPage.signUp("Ricardo", "Carballo", username, password);
+		signupPage.clickSubmit();
+	}
+
+	public void loginUser(){
+		driver.get("http://localhost:" + port + "/login");
+		LoginPage loginPage = new LoginPage(driver);
+		loginPage.login(username, password);
+		loginPage.clickLogin();
 	}
 
 	@Test
@@ -56,6 +65,17 @@ class CloudStorageApplicationTests {
 		driver.get("http://localhost:" + this.port + "/home");
 		String title = driver.getTitle();
 		Assertions.assertEquals("Login", title);
+	}
+
+	@Test
+	public void checkHomePageIsAvailable(){
+		signupUser();
+		loginUser();
+		WebElement logoutButton = driver.findElement(By.id("logoutButton"));
+		boolean displayed = logoutButton.isDisplayed();
+
+		Assertions.assertTrue(displayed);
+
 	}
 
 
