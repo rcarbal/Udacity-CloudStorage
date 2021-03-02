@@ -17,4 +17,14 @@ public class HomePage {
     public void logout() {
         logoutButton.click();
     }
+
+    public void clickShowNoteModuleButton() {
+        
+    }
+
+    public void setNoteTitle(String noteTitle) {
+    }
+
+    public void setNoteDescription() {
+    }
 }

@@ -2,6 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage;
 
 import com.udacity.jwdnd.course1.cloudstorage.page.HomePage;
 import com.udacity.jwdnd.course1.cloudstorage.page.LoginPage;
+import com.udacity.jwdnd.course1.cloudstorage.page.ResultPage;
 import com.udacity.jwdnd.course1.cloudstorage.page.SignupPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
@@ -81,5 +82,25 @@ class CloudStorageApplicationTests {
 		homePage.logout();
 		String loggedOutTitle = driver.getTitle();
 		Assertions.assertEquals("Login", loggedOutTitle);
+	}
+
+	// showNoteModule
+	//note-title
+	//note-description
+	@Test
+	public void checkNoteFunctionality(){
+		String noteTitle = "This is the first note";
+		String noteDescription = "This the description of the note.";
+
+		signupUser();
+		loginUser();
+		HomePage homePage = new HomePage(driver);
+		homePage.clickShowNoteModuleButton();
+		homePage.setNoteTitle(noteTitle);
+		homePage.setNoteDescription();
+
+		ResultPage resultPage = new ResultPage(driver);
+		String inResultPage = driver.getTitle();
+		Assertions.assertEquals("Result", inResultPage);
 	}
 }
