@@ -2,14 +2,16 @@ package com.udacity.jwdnd.course1.cloudstorage;
 
 import com.udacity.jwdnd.course1.cloudstorage.page.HomePage;
 import com.udacity.jwdnd.course1.cloudstorage.page.LoginPage;
-import com.udacity.jwdnd.course1.cloudstorage.page.ResultPage;
 import com.udacity.jwdnd.course1.cloudstorage.page.SignupPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
@@ -38,7 +40,7 @@ class CloudStorageApplicationTests {
 	@AfterEach
 	public void afterEach() {
 		if (this.driver != null) {
-			driver.quit();
+//			driver.quit();
 		}
 	}
 
@@ -84,9 +86,6 @@ class CloudStorageApplicationTests {
 		Assertions.assertEquals("Login", loggedOutTitle);
 	}
 
-	// showNoteModule
-	//note-title
-	//note-description
 	@Test
 	public void checkNoteFunctionality(){
 		String noteTitle = "This is the first note";
@@ -94,13 +93,26 @@ class CloudStorageApplicationTests {
 
 		signupUser();
 		loginUser();
-		HomePage homePage = new HomePage(driver);
-		homePage.clickShowNoteModuleButton();
-		homePage.setNoteTitle(noteTitle);
-		homePage.setNoteDescription();
+		String loggedIn = driver.getTitle();
+		Assertions.assertEquals("Home", loggedIn);
 
-		ResultPage resultPage = new ResultPage(driver);
-		String inResultPage = driver.getTitle();
-		Assertions.assertEquals("Result", inResultPage);
+
+		WebDriverWait wait = new WebDriverWait(driver, 50);
+		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-tab")));
+
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("noteModuleButton"))).click();
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-title"))).sendKeys(noteTitle);
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-description"))).sendKeys(noteDescription);
+
+		HomePage homePage = new HomePage(driver);
+		homePage.clickSubmitNote();
+//		homePage.clickShowNoteModuleButton();
+//		homePage.setNoteTitle(noteTitle);
+//		homePage.setNoteDescription(noteDescription);
+//
+//		String inResultPage = driver.getTitle();
+//		Assertions.assertEquals("Result", inResultPage);
 	}
 }
