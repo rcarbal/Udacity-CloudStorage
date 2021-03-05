@@ -40,7 +40,7 @@ class CloudStorageApplicationTests {
 	@AfterEach
 	public void afterEach() {
 		if (this.driver != null) {
-//			driver.quit();
+			driver.quit();
 		}
 	}
 
@@ -106,13 +106,9 @@ class CloudStorageApplicationTests {
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-title"))).sendKeys(noteTitle);
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-description"))).sendKeys(noteDescription);
 
-		HomePage homePage = new HomePage(driver);
-		homePage.clickSubmitNote();
-//		homePage.clickShowNoteModuleButton();
-//		homePage.setNoteTitle(noteTitle);
-//		homePage.setNoteDescription(noteDescription);
-//
-//		String inResultPage = driver.getTitle();
-//		Assertions.assertEquals("Result", inResultPage);
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("fake-submit-button"))).click();
+
+		String inResultPage = driver.getTitle();
+		Assertions.assertEquals("Result", inResultPage);
 	}
 }
