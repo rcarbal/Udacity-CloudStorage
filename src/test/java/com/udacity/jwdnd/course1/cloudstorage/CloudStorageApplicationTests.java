@@ -40,7 +40,7 @@ class CloudStorageApplicationTests {
 	@AfterEach
 	public void afterEach() {
 		if (this.driver != null) {
-			driver.quit();
+//			driver.quit();
 		}
 	}
 
@@ -59,16 +59,17 @@ class CloudStorageApplicationTests {
 	}
 
 	@Test
-	public void getLoginPage() {
-		driver.get("http://localhost:" + this.port + "/login");
-		Assertions.assertEquals("Login", driver.getTitle());
-	}
-
-	@Test
 	public void testHomePageIsNotAvailable(){
 		driver.get("http://localhost:" + this.port + "/home");
 		String title = driver.getTitle();
 		Assertions.assertEquals("Login", title);
+	}
+
+
+	@Test
+	public void getLoginPage() {
+		driver.get("http://localhost:" + this.port + "/login");
+		Assertions.assertEquals("Login", driver.getTitle());
 	}
 
 	@Test
@@ -87,7 +88,7 @@ class CloudStorageApplicationTests {
 	}
 
 	@Test
-	public void checkNoteFunctionality(){
+	public void addNoteTest(){
 		String noteTitle = "This is the first note";
 		String noteDescription = "This the description of the note.";
 
@@ -110,5 +111,33 @@ class CloudStorageApplicationTests {
 
 		String inResultPage = driver.getTitle();
 		Assertions.assertEquals("Result", inResultPage);
+	}
+	@Test
+	public void testEditNote(){
+		signupUser();
+		loginUser();
+		addNoteTest();
+
+		driver.get("http://localhost:" + this.port + "/home");
+
+		WebDriverWait wait = new WebDriverWait(driver, 50);
+		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-tab")));
+
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-edit-button"))).click();
+
+		//Update Description text
+		String textToUpdate = "This is updated Text for the description!!!!!!!";
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-description"))).sendKeys(textToUpdate);
+
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("fake-submit-button"))).click();
+
+		String inResultPage = driver.getTitle();
+		Assertions.assertEquals("Result", inResultPage);
+
+		driver.get("http://localhost:" + this.port + "/home");
+
+		WebElement element2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-tab")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element2);
 	}
 }
