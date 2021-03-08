@@ -134,10 +134,23 @@ class CloudStorageApplicationTests {
 
 		String inResultPage = driver.getTitle();
 		Assertions.assertEquals("Result", inResultPage);
+	}
+
+	@Test
+	public void deleteNote(){
+		signupUser();
+		loginUser();
+		addNoteTest();
 
 		driver.get("http://localhost:" + this.port + "/home");
 
-		WebElement element2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-tab")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element2);
+		WebDriverWait wait = new WebDriverWait(driver, 50);
+		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-tab")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("deleteNode"))).click();
+
+		String inResultPage = driver.getTitle();
+		Assertions.assertEquals("Result", inResultPage);
 	}
 }
