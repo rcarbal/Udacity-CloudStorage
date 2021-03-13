@@ -1,12 +1,15 @@
 package com.udacity.jwdnd.course1.cloudstorage.page;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 
-public class HomePage {
+public class RootPage {
 
     @FindBy(id = "nav-notes-tab")
     private WebElement noteTab;
@@ -26,13 +29,19 @@ public class HomePage {
     @FindBy(id = "noteSubmit")
     private WebElement noteSubmitButton;
 
+    private WebDriverWait wait;
+    private final JavascriptExecutor js;
 
-    public HomePage(WebDriver driver) {
+
+    public RootPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        this.wait = new WebDriverWait(driver, 5);
+        this.js = (JavascriptExecutor) driver;
     }
 
     public void logout() {
-        logoutButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(logoutButton));
+        js.executeScript("arguments[0].click();", logoutButton);
     }
 
     public void clickShowNoteModuleButton() {

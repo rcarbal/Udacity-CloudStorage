@@ -1,7 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
-import com.udacity.jwdnd.course1.cloudstorage.page.HomePage;
 import com.udacity.jwdnd.course1.cloudstorage.page.LoginPage;
+import com.udacity.jwdnd.course1.cloudstorage.page.RootPage;
 import com.udacity.jwdnd.course1.cloudstorage.page.SignupPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
@@ -29,7 +29,8 @@ class CloudStorageApplicationTests {
 
 	@BeforeAll
 	static void beforeAll() {
-		WebDriverManager.chromedriver().setup();
+		WebDriverManager.chromedriver()
+				.setup();
 	}
 
 	@BeforeEach
@@ -40,7 +41,7 @@ class CloudStorageApplicationTests {
 	@AfterEach
 	public void afterEach() {
 		if (this.driver != null) {
-//			driver.quit();
+			driver.quit();
 		}
 	}
 
@@ -58,6 +59,7 @@ class CloudStorageApplicationTests {
 		loginPage.clickLogin();
 	}
 
+	@Order(1)
 	@Test
 	public void testHomePageIsNotAvailable(){
 		driver.get("http://localhost:" + this.port + "/home");
@@ -66,34 +68,37 @@ class CloudStorageApplicationTests {
 	}
 
 
+	@Order(2)
 	@Test
 	public void getLoginPage() {
 		driver.get("http://localhost:" + this.port + "/login");
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
 
+	@Order(3)
 	@Test
-	public void checkHomePageIsAvailable(){
+	public void checkThatYouCanLogoutUser(){
 		signupUser();
 		loginUser();
+		WebDriverWait wait = new WebDriverWait(driver, 50);
 		WebElement logoutButton = driver.findElement(By.id("logoutButton"));
 		boolean displayed = logoutButton.isDisplayed();
 
 		Assertions.assertTrue(displayed);
 
-		HomePage homePage = new HomePage(driver);
+		RootPage homePage = new RootPage(driver);
 		homePage.logout();
+		wait.until(ExpectedConditions.titleContains("Login"));
 		String loggedOutTitle = driver.getTitle();
 		Assertions.assertEquals("Login", loggedOutTitle);
 	}
 
+	@Order(4)
 	@Test
 	public void addNoteTest(){
 		String noteTitle = "Just a note";
 		String noteDescription = "This the description of the note.";
 
-		signupUser();
-		loginUser();
 		String loggedIn = driver.getTitle();
 		Assertions.assertEquals("Home", loggedIn);
 
@@ -129,7 +134,9 @@ class CloudStorageApplicationTests {
 		Assertions.assertTrue(retrievedTitle.equals(noteTitle) && retrievedDescription.equals(noteDescription));
 
 	}
-	@Test
+
+	@Order(5)
+	@Test()
 	public void testEditNote(){
 		signupUser();
 		loginUser();
@@ -153,21 +160,22 @@ class CloudStorageApplicationTests {
 		Assertions.assertEquals("Result", inResultPage);
 	}
 
-	@Test
-	public void deleteNote(){
-		signupUser();
-		loginUser();
-		addNoteTest();
-
-		driver.get("http://localhost:" + this.port + "/home");
-
-		WebDriverWait wait = new WebDriverWait(driver, 50);
-		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-tab")));
-		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
-
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("deleteNode"))).click();
-
-		String inResultPage = driver.getTitle();
-		Assertions.assertEquals("Result", inResultPage);
-	}
+//	@Order(6)
+//	@Test
+//	public void deleteNote(){
+//		signupUser();
+//		loginUser();
+//		addNoteTest();
+//
+//		driver.get("http://localhost:" + this.port + "/home");
+//
+//		WebDriverWait wait = new WebDriverWait(driver, 50);
+//		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-tab")));
+//		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+//
+//		wait.until(ExpectedConditions.elementToBeClickable(By.id("deleteNode"))).click();
+//
+//		String inResultPage = driver.getTitle();
+//		Assertions.assertEquals("Result", inResultPage);
+//	}
 }
