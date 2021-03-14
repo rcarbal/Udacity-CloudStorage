@@ -152,12 +152,30 @@ class CloudStorageApplicationTests {
 
 		//Update Description text
 		String textToUpdate = "This is updated Text for the description!!!!!!!";
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-description"))).clear();
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-description"))).sendKeys(textToUpdate);
+
 
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("fake-submit-button"))).click();
 
 		String inResultPage = driver.getTitle();
 		Assertions.assertEquals("Result", inResultPage);
+
+		// verify that note is visible
+		driver.get("http://localhost:" + this.port + "/home");
+		WebElement noteTab2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-tab")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", noteTab2);
+
+		//verify note was changed
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-edit-button"))).click();
+		WebElement element1 = driver.findElement(By.id("note-title"));
+		wait.until(ExpectedConditions.elementToBeClickable(element1)).click();
+		String retrievedTitle = element1.getAttribute("value");
+		WebElement element2 = driver.findElement(By.id("note-description"));
+		wait.until(ExpectedConditions.elementToBeClickable(element2)).click();
+		String retrievedDescription = element2.getAttribute("value");
+
+		Assertions.assertTrue(retrievedDescription.equals(textToUpdate));
 	}
 
 //	@Order(6)
