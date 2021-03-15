@@ -113,7 +113,8 @@ class CloudStorageApplicationTests {
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-title"))).sendKeys(noteTitle);
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-description"))).sendKeys(noteDescription);
 
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("fake-submit-button"))).click();
+		// CLICK FAKE SUBMIT BUTTON
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("fake-notes-submit-button"))).click();
 
 		String inResultPage = driver.getTitle();
 		Assertions.assertEquals("Result", inResultPage);
@@ -156,7 +157,7 @@ class CloudStorageApplicationTests {
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("note-description"))).sendKeys(textToUpdate);
 
 
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("fake-submit-button"))).click();
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("fake-notes-submit-button"))).click();
 
 		String inResultPage = driver.getTitle();
 		Assertions.assertEquals("Result", inResultPage);
@@ -211,10 +212,21 @@ class CloudStorageApplicationTests {
 
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
 
+		//OPEN MODAL
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("showCredentialButton"))).click();
+
+		// SET FIELDS IN MODAL
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("credential-url"))).sendKeys(url);
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("credential-username"))).sendKeys(username);
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("credential-password"))).sendKeys(password);
+
+		// CLICK ON THE SUBMIT BUTTON
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("fake-credentials-button"))).click();
+		String inResultPage = driver.getTitle();
+		Assertions.assertEquals("Result", inResultPage);
+
+
+
 
 	}
 }
