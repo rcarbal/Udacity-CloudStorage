@@ -201,13 +201,20 @@ class CloudStorageApplicationTests {
 		signupUser();
 		loginUser();
 
+		String url = "https://google.com";
+		String username = "username";
+		String password = "password";
+
 		// ADD CREDENTIAL
-		WebDriverWait wait = new WebDriverWait(driver, 50);
+		WebDriverWait wait = new WebDriverWait(driver, 5);
 		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-credentials-tab")));
 
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
 
-
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("showCredentialButton"))).click();
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("credential-url"))).sendKeys(url);
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("credential-username"))).sendKeys(username);
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("credential-password"))).sendKeys(password);
 
 	}
 }
