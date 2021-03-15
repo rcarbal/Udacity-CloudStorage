@@ -29,12 +29,17 @@ public class RootPage {
     @FindBy(id = "noteSubmit")
     private WebElement noteSubmitButton;
 
+    @FindBy(css = "#nav-credentials-tab")
+    private WebElement credentialTab;
+
     private WebDriverWait wait;
+    private WebDriver driver;
     private final JavascriptExecutor js;
 
 
     public RootPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
+        this.driver = driver;
         this.wait = new WebDriverWait(driver, 5);
         this.js = (JavascriptExecutor) driver;
     }
@@ -62,5 +67,10 @@ public class RootPage {
 
     public void clickSubmitNote() {
         noteSubmitButton.click();
+    }
+
+    public void clickCredentialsTab() {
+		wait.until(ExpectedConditions.elementToBeClickable(credentialTab));
+        js.executeScript("arguments[0].click();", credentialTab);
     }
 }

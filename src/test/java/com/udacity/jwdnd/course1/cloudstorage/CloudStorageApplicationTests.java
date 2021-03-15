@@ -41,7 +41,7 @@ class CloudStorageApplicationTests {
 	@AfterEach
 	public void afterEach() {
 		if (this.driver != null) {
-			driver.quit();
+//			driver.quit();
 		}
 	}
 
@@ -96,6 +96,7 @@ class CloudStorageApplicationTests {
 	@Order(4)
 	@Test
 	public void addNoteTest(){
+		loginUser();
 		String noteTitle = "Just a note";
 		String noteDescription = "This the description of the note.";
 
@@ -140,7 +141,6 @@ class CloudStorageApplicationTests {
 	public void testEditNote(){
 		signupUser();
 		loginUser();
-		addNoteTest();
 
 		driver.get("http://localhost:" + this.port + "/home");
 
@@ -178,22 +178,36 @@ class CloudStorageApplicationTests {
 		Assertions.assertTrue(retrievedDescription.equals(textToUpdate));
 	}
 
-//	@Order(6)
-//	@Test
-//	public void deleteNote(){
-//		signupUser();
-//		loginUser();
-//		addNoteTest();
-//
-//		driver.get("http://localhost:" + this.port + "/home");
-//
-//		WebDriverWait wait = new WebDriverWait(driver, 50);
-//		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-tab")));
-//		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
-//
-//		wait.until(ExpectedConditions.elementToBeClickable(By.id("deleteNode"))).click();
-//
-//		String inResultPage = driver.getTitle();
-//		Assertions.assertEquals("Result", inResultPage);
-//	}
+	@Order(6)
+	@Test
+	public void deleteNote(){
+		loginUser();
+
+		driver.get("http://localhost:" + this.port + "/home");
+
+		WebDriverWait wait = new WebDriverWait(driver, 50);
+		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-tab")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("deleteNode"))).click();
+
+		String inResultPage = driver.getTitle();
+		Assertions.assertEquals("Result", inResultPage);
+	}
+
+	@Test
+	public void createCredential(){
+
+		signupUser();
+		loginUser();
+
+		// ADD CREDENTIAL
+		WebDriverWait wait = new WebDriverWait(driver, 50);
+		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-credentials-tab")));
+
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+
+
+
+	}
 }
