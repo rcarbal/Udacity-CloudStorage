@@ -19,7 +19,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CloudStorageApplicationTests {
 
-	private String username = "rcarbal";
+	private String username = "rcarbaleq2";
 	private String password = "123456";
 
 	@LocalServerPort
@@ -225,8 +225,26 @@ class CloudStorageApplicationTests {
 		String inResultPage = driver.getTitle();
 		Assertions.assertEquals("Result", inResultPage);
 
+		// GO TO HOME PAGE
+		driver.get("http://localhost:" + this.port + "/home");
+		String backToHomePage = driver.getTitle();
+		Assertions.assertEquals("Home", backToHomePage);
 
+		//GO TO CREDENTIALS TAB
+		WebElement backToCredentials = wait.until(ExpectedConditions.visibilityOfElementLocated(
+				By.id("nav-credentials-tab")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", backToCredentials);
 
+		// CLICK THE CREDENTIAL EDIT BUTTON
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("credentialEditButton"))).click();
 
+		// GET VALUES FROM CREDENTIAL FIELD
+		String retrievedUrl = driver.findElement(By.id("credential-url")).getAttribute("value");
+		String retrievedUsername = driver.findElement(By.id("credential-username")).getAttribute("value");
+		String retrievedPassword = driver.findElement(By.id("credential-password")).getAttribute("value");
+
+		Assertions.assertTrue(retrievedUrl.equals(url)
+				&& retrievedUsername.equals(username)
+				&& retrievedPassword.equals(password));
 	}
 }
