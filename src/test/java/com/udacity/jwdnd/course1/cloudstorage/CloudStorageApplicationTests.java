@@ -200,6 +200,7 @@ class CloudStorageApplicationTests {
 	@Test
 	public void createCredential(){
 
+		signupUser();
 		loginUser();
 
 		driver.get("http://localhost:" + this.port + "/home");
@@ -248,5 +249,43 @@ class CloudStorageApplicationTests {
 		Assertions.assertTrue(retrievedUrl.equals(url)
 				&& retrievedUsername.equals(username)
 				&& retrievedPassword.equals(password));
+
+		// ----------------------------- TO BE PART OF SEPARATE TEST
+
+		String urlUpdated = "http://udpatedUrl.com";
+		String userNameUpdated ="UpdatedUserName";
+		String passwordUpdated ="UpdatedPassword1234";
+
+		// get back to home page
+		driver.get("http://localhost:" + this.port + "/home");
+		String onHomePage = driver.getTitle();
+		Assertions.assertEquals("Home", onHomePage);
+
+		// got to credential tab
+		WebElement backToCredentials2 = wait.until(ExpectedConditions.visibilityOfElementLocated(
+				By.id("nav-credentials-tab")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", backToCredentials2);
+
+		// Click the credential edit button
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("credentialEditButton"))).click();
+
+		// GET VALUES FROM CREDENTIAL FIELD
+		String retrievedUrl2 = driver.findElement(By.id("credential-url")).getAttribute("value");
+		String retrievedUsername2 = driver.findElement(By.id("credential-username")).getAttribute("value");
+		String retrievedPassword2 = driver.findElement(By.id("credential-password")).getAttribute("value");
+
+		Assertions.assertNotNull(retrievedUrl2);
+		Assertions.assertNotNull(retrievedUsername2);
+		Assertions.assertNotNull(retrievedPassword2);
+
+
+
+
+	}
+
+	@Test
+	public void updateExistingCredentials(){
+		// log existing user in
+
 	}
 }
