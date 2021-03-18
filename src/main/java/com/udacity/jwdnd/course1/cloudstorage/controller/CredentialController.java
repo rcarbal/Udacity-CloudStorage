@@ -32,8 +32,6 @@ public class CredentialController {
         Integer credentialId = cred.getCredentialId();
 
         int userId = userService.getUserById(auth.getName());
-
-        cred.setUsername(auth.getName());
         cred.setUserId(userId);
 
         if (credentialId != null){

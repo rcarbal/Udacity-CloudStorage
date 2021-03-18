@@ -41,7 +41,7 @@ class CloudStorageApplicationTests {
 	@AfterEach
 	public void afterEach() {
 		if (this.driver != null) {
-//			driver.quit();
+			driver.quit();
 		}
 	}
 
@@ -196,11 +196,13 @@ class CloudStorageApplicationTests {
 		Assertions.assertEquals("Result", inResultPage);
 	}
 
+	@Order(7)
 	@Test
 	public void createCredential(){
 
-		signupUser();
 		loginUser();
+
+		driver.get("http://localhost:" + this.port + "/home");
 
 		String url = "https://google.com";
 		String username = "username";
