@@ -59,6 +59,20 @@ class CloudStorageApplicationTests {
 		loginPage.clickLogin();
 	}
 
+	private boolean checkIfIDExists(String elementId){
+		WebElement element = null;
+
+		try {
+
+			element = driver.findElement(By.id(elementId));
+
+		} catch (Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
 	@Order(1)
 	@Test
 	public void testHomePageIsNotAvailable(){
@@ -193,6 +207,16 @@ class CloudStorageApplicationTests {
 
 		String inResultPage = driver.getTitle();
 		Assertions.assertEquals("Result", inResultPage);
+
+		// Verify delete does not exist
+		driver.get("http://localhost:" + this.port + "/home");
+
+		WebElement navElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-notes-tab")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", navElement);
+
+		boolean verifyDeletedNote = checkIfIDExists("deleteNode");
+
+		Assertions.assertFalse(verifyDeletedNote);
 	}
 
 	@Order(7)
@@ -307,5 +331,36 @@ class CloudStorageApplicationTests {
 		Assertions.assertTrue(urlUpdated.equals(urlUpdatedRetrieved)
 				&& userNameUpdated.equals(usernameUpdatedRetrieved)
 				&& passwordUpdated.equals(passwordUpdatedRetrieved));
+	}
+
+	@Order(9)
+	@Test
+	public void deleteCredential(){
+		loginUser();
+
+		WebDriverWait wait = new WebDriverWait(driver, 5);
+
+		// get back to home page
+		driver.get("http://localhost:" + this.port + "/home");
+		String homeForeDelete = driver.getTitle();
+		Assertions.assertEquals("Home", homeForeDelete);
+
+		WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-credentials-tab")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("deleteCred"))).click();
+
+		String inResultPage = driver.getTitle();
+		Assertions.assertEquals("Result", inResultPage);
+
+		// Verify delete does not exist
+		driver.get("http://localhost:" + this.port + "/home");
+
+		WebElement navElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("nav-credentials-tab")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", navElement);
+
+		boolean deleteCred = checkIfIDExists("deleteCred");
+
+		Assertions.assertFalse(deleteCred);
 	}
 }
