@@ -134,7 +134,6 @@ class CloudStorageApplicationTests {
 		String retrievedDescription = element2.getAttribute("value");
 
 		Assertions.assertTrue(retrievedTitle.equals(noteTitle) && retrievedDescription.equals(noteDescription));
-
 	}
 
 	@Order(5)
@@ -199,8 +198,6 @@ class CloudStorageApplicationTests {
 	@Order(7)
 	@Test
 	public void createCredential(){
-
-		signupUser();
 		loginUser();
 
 		driver.get("http://localhost:" + this.port + "/home");
@@ -249,8 +246,13 @@ class CloudStorageApplicationTests {
 		Assertions.assertTrue(retrievedUrl.equals(url)
 				&& retrievedUsername.equals(username)
 				&& retrievedPassword.equals(password));
+	}
 
-		// ----------------------------- TO BE PART OF SEPARATE TEST
+	@Order(8)
+	@Test
+	public void updateExistingCredentials(){
+		loginUser();
+		WebDriverWait wait = new WebDriverWait(driver, 5);
 
 		String urlUpdated = "http://udpatedUrl.com";
 		String userNameUpdated ="UpdatedUserName";
@@ -269,23 +271,41 @@ class CloudStorageApplicationTests {
 		// Click the credential edit button
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("credentialEditButton"))).click();
 
-		// GET VALUES FROM CREDENTIAL FIELD
-		String retrievedUrl2 = driver.findElement(By.id("credential-url")).getAttribute("value");
-		String retrievedUsername2 = driver.findElement(By.id("credential-username")).getAttribute("value");
-		String retrievedPassword2 = driver.findElement(By.id("credential-password")).getAttribute("value");
+		// UPDATE CRED
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("credential-url"))).clear();
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("credential-url"))).sendKeys(urlUpdated);
 
-		Assertions.assertNotNull(retrievedUrl2);
-		Assertions.assertNotNull(retrievedUsername2);
-		Assertions.assertNotNull(retrievedPassword2);
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("credential-username"))).clear();
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("credential-username"))).sendKeys(userNameUpdated);
 
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("credential-password"))).clear();
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("credential-password"))).sendKeys(passwordUpdated);
 
+		// CLICK ON THE SUBMIT BUTTON
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("fake-credentials-button"))).click();
+		String backToResult = driver.getTitle();
+		Assertions.assertEquals("Result", backToResult);
 
+		// get back to home page
+		driver.get("http://localhost:" + this.port + "/home");
+		String backToRoot = driver.getTitle();
+		Assertions.assertEquals("Home", backToRoot);
 
-	}
+		// got to credential tab
+		WebElement backToCredentials3 = wait.until(ExpectedConditions.visibilityOfElementLocated(
+				By.id("nav-credentials-tab")));
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", backToCredentials3);
 
-	@Test
-	public void updateExistingCredentials(){
-		// log existing user in
+		// Click the credential edit button
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("credentialEditButton"))).click();
 
+		// Get values of the updated credential.
+		String urlUpdatedRetrieved = driver.findElement(By.id("credential-url")).getAttribute("value");
+		String usernameUpdatedRetrieved = driver.findElement(By.id("credential-username")).getAttribute("value");
+		String passwordUpdatedRetrieved = driver.findElement(By.id("credential-password")).getAttribute("value");
+
+		Assertions.assertTrue(urlUpdated.equals(urlUpdatedRetrieved)
+				&& userNameUpdated.equals(usernameUpdatedRetrieved)
+				&& passwordUpdated.equals(passwordUpdatedRetrieved));
 	}
 }
