@@ -8,6 +8,7 @@ public class Credential {
     private String key;
     private String password;
     private Integer userId;
+    private String encryptedPassword;
 
     public Credential(Integer credentialId, String url, String username, String key, String password, Integer userId) {
         this.credentialId = credentialId;
@@ -66,6 +67,14 @@ public class Credential {
         this.userId = userId;
     }
 
+    public void setEncryptedPassword(String password) {
+        this.encryptedPassword = password;
+    }
+
+    public String getEncryptedPassword(){
+        return this.encryptedPassword;
+    }
+
     @Override
     public String toString() {
         return "Credential{" +
@@ -77,4 +86,5 @@ public class Credential {
                 ", userId=" + userId +
                 '}';
     }
+
 }

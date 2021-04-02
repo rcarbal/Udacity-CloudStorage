@@ -26,6 +26,7 @@ public class CredentialService {
         for (Credential credential: credentials){
             String password = credential.getPassword();
             String key = credential.getKey();
+            credential.setEncryptedPassword(password);
 
             String decryptedPassword = encryptionService.decryptValue(password, key);
             credential.setPassword(decryptedPassword);
