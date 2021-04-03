@@ -45,7 +45,14 @@ public class FileController {
             model.addAttribute("result",
                     new Result(ResultsEnum.FAILED.getKey(), FileServiceEnum.NO_FILE_FOUND.getMessage()));
         } else {
-            savedIndex = fileService.addFile(userId, file);
+            boolean fileNameStores = fileService.checkFilename(userId, fileName);
+
+            if (fileNameStores){
+                model.addAttribute("result",
+                        new Result(ResultsEnum.ERROR.getKey(), FileServiceEnum.DUPLICATE_FILE.getMessage()));
+            } else {
+                savedIndex = fileService.addFile(userId, file);
+            }
         }
 
         if (savedIndex > -1 ){

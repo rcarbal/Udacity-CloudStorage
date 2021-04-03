@@ -38,4 +38,23 @@ public class FileService {
     public File getFileById(long fileId) {
         return fileMapper.getFileById(fileId);
     }
+
+    public boolean checkFilename(int userId, String filename) {
+        List<File> allFiles = fileMapper.getFilesByUserId(userId);
+
+        String justFileName = filename.split("\\.")[0];
+        String fileType = filename.split("\\.")[1];
+
+        for (File file: allFiles){
+            String fileName = file.getFileName();
+            String storedJustFileName = fileName.split("\\.")[0];
+            String storedFileType = fileName.split("\\.")[1];
+
+            if (storedJustFileName.equals(justFileName) && storedFileType.equals(fileType)){
+                return true;
+            }
+
+        }
+        return false;
+    }
 }
